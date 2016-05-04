@@ -1,0 +1,105 @@
+<?php include "header.php"; ?>
+
+<div class="ui-widget">
+	
+	<form action="#" method="get" enctype="multipart/form-data">
+	
+		<fieldset>
+			<legend>New Word</legend>
+		
+		<!--
+		DER ER IKKE BRUG FOR INDEX ID (artiklen er nok, og index findes via ordet)
+
+		index_id (ordets id)
+		
+		<select name="index">
+		<script>
+			for (var i=1;i<25;i++) {
+				// drop down
+				document.write('<option value="'+i+'">'+i+'</option>');
+			}		
+		</script>
+		</select> <br>		 
+		-->
+
+		
+		
+		<select name="artikel">
+		<script>
+			for (var i=1;i<100;i++) {
+				// drop down
+				document.write('<option value="'+i+'">'+i+'</option>');
+			}		
+		</script>
+		</select> Artikel ID <br>
+		
+		<input type="number" name="side" value="1" required="required"> page <br>
+		<input type="text" name="ord" id="tags" required="required"> index word<br>
+	
+	
+		<input type="submit" name="OK" value="OK">
+		<input type="reset" name="Cancel" value="Cancel">
+	
+	</fieldset>
+	</form>
+
+</div>
+
+<pre>
+	<?php 
+	
+	if (isset($_GET)){
+		$json = json_encode( $_GET );
+		echo $json;
+	}
+	else {
+		echo "Please use the form.";
+	}
+	
+	?>	 
+</pre>
+
+<?php include_once "footer.php"; ?>
+
+<?php /* findes ordet? */
+
+	if (isset($_GET)){
+		require_once "db.php"; // database connection
+		
+		$sql = "SELECT * FROM `indexes`"; 
+		
+		$result =  $mysqli->query($sql); // query
+		
+		// loop out the result
+		while($row = $result->fetch_assoc()){
+	
+
+		   // find a needle in the haystack 
+	
+			if ($_GET['ord'] == $row['word']) {		    
+		    	echo "<p>Ordet findes</p>";
+		    	//echo $row['indexes_id'] . " " . $row['word']; 
+		    	
+				// gem i den relationelle tabel contains
+				$sql = "INSERT INTO `actaIndex`.`contains` (`articles_id`, `indexes_id`, `page`) 
+					VALUES ('".$_GET['artikel']."', '".$row['indexes_id']."', '".$_GET['side']."');";
+
+				// gemmer relationen
+				$result =  $mysqli->query($sql);
+				echo  mysqli_error($mysqli);
+					
+				echo $sql;		    	
+		    			    	
+		   }
+		   else {
+		   	echo "<p>Ordet skal oprettes</p>";
+				// create the word
+				// get the new id
+				// save the relation in contains as above		   	
+		   	
+		   } // /if 2
+		    
+		} // /while
+	} // /if 1
+
+?>

@@ -1,0 +1,45 @@
+/* Acta Masonica Scandinavica Styles */
+
+// colors
+$baggrund: #66ccff;
+$skrift: #000;
+$skriftNeg: #fff;
+$font: Helvetica, Arial, sans-serif;
+$bar: #ffff4d;
+$hover: #ff9900;
+
+// layout
+body {
+	background-color: $baggrund;
+	color: $skrift;
+	font-family: $font;
+}
+
+footer {
+	font-size: small;
+	margin-top: 1.1em;
+}
+
+// nav
+ul {
+
+	width: 333px;	
+	
+	li { 
+		display: block;
+		background-color: $bar;
+		
+		a {
+			color: $skriftNeg;
+		}
+		
+	}
+	a:hover {
+		
+			background-color: $hover;
+			display: block;		
+		}	
+	}
+}
+
+
